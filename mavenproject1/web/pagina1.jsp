@@ -1,3 +1,8 @@
+<%@ page import = "java.io.*, java.util.*, java.sql.*, java.time.*"%>
+<%@ page import = "javax.servlet.http.*, javax.servlet.*" %>
+<%@ page import = "com.postgresql.jdbc.Driver.*" %>
+
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -72,9 +77,10 @@
         <h1 style="font-size:48px;">Medidores</h1>
         <br>
         <br>
+        
         <table>
-            <thead>
-                <tr>
+            <thead> 
+               <tr>
                     <th>Serial #</th>
                     <th>Medidor</th>
                     <th>Temperatura</th>                    
@@ -84,16 +90,29 @@
                 </tr>
             </thead>
             <tbody>
+        <%  
+            Class.forName("org.postgresql.Driver");
+            Connection con = DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
+                    "tempumidade",                                  //User
+                    "tempumidade"); 
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM public.medidor001;");
+
+            while(rs.next()){ 
+        %>
                 <tr>
-                    <td>James</td>
-                    <td>Matman</td>
-                    <td>Chief Sandwich Eater</td>
+                    <td><%= rs.getInt("serialno") %></td>
+                    <td><%= rs.getString("medidor") %></td>
+                    <td><%= rs.getInt("temperatura") %></td>
+                    <td><%= rs.getInt("umidade") %></td>
+                    <td><%= rs.getString("datahora") %></td>
+                    <td><%= rs.getString("serial") %></td>
                 </tr>
-                <tr>
-                    <td>The</td>
-                    <td>Tick</td>
-                    <td>Crimefighter Sorta</td>
-                </tr>
+        <% 
+            }
+            if (stmt != null) { stmt.close(); }
+        %>
             </tbody>
         </table>
 <!--        <form method="GET" action="controller">
