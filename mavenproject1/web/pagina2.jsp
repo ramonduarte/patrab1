@@ -8,14 +8,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>MVC orientado a páginas, SEM tags</title>
+        <title>Medidores</title>
     </head>
     
     <body>
         <center>
         <br>
         <br>
-        <h1 style="font-size:48px;">Página 2 (sem tags)</h1>
+        <h1 style="font-size:48px;">Medidores</h1>
         <br>
         <br>
         <form method="GET" action="controller">
