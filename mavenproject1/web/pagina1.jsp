@@ -124,7 +124,7 @@
 
         <div class="container" style="margin-top:20px">
             <div class="row" style="display: block">
-                    <form method="POST" id="novo_medidor" action="controller">
+                <form method="POST" id="novo_medidor" action="/controller">
 
                     <h3 class="display-5">Adicionar medidor:</h2>
 
@@ -150,7 +150,7 @@
                     </table>
                     <input class="btn btn-outline-primary" type="submit" name="botaoSubmit"
                     value="ENVIAR"/>
-                    </form>
+                </form>
                     <%
                         PreparedStatement pstatement = null;
                         int updateQuery = 0;

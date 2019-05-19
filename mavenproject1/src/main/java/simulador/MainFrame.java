@@ -18,6 +18,7 @@ import java.util.Date;
 
 public class MainFrame extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 1L;
     static MainFrame mainFrame;
     static Transmissor transmissor;
     public static int PERIODO_TRANSMISSAO = 1000;

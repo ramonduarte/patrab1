@@ -1,12 +1,22 @@
 package mvc;
 
+import java.sql.Statement;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+@WebServlet(urlPatterns = {"/controller"})
 public class Controller extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
 
     // Este controlador pode chamar vários handlers (tratadores de páginas)
     // Todos os hamdlers implementam a mesma interface.
@@ -16,14 +26,35 @@ public class Controller extends HttpServlet {
         
         request.setCharacterEncoding("UTF8");
         response.setCharacterEncoding("UTF8");
+        System.out.println("ilhjfdoijdsfse");
         IFTratadorDePaginas tratador;
         try {
-            String nomeDoTratadorDePagina = request.getParameter("nomeDoTratadorDePagina");
+            // String serialno = request.getParameter("serialno");
+            String serialno = "";
+            String medidor = request.getParameter("medidor");
+            String temperatura = request.getParameter("temperatura");
+            String umidade = request.getParameter("umidade");
+            String datahora = request.getParameter("datahora");
+            String serial = request.getParameter("serial");
+
+            Class.forName("org.postgresql.Driver");
+            Connection con = DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
+                    "tempumidade",                                  //User
+                    "tempumidade"); 
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("INSERT INTO public.medidor001"
+                                             + "(medidor,temperatura,umidade,"
+                                             + "datahora,serial) "
+                                             + "VALUES(" + medidor + ","
+                                             + temperatura + "," + umidade + ","
+                                             + datahora + "," + serial + ");");
             
-            tratador = (IFTratadorDePaginas) Class.forName(nomeDoTratadorDePagina).newInstance();
+            tratador = (IFTratadorDePaginas) Class.forName(medidor).newInstance();
             
-            String nomeDaPaginaDeResposta = tratador.processar(request, response);
-            request.getRequestDispatcher(nomeDaPaginaDeResposta).forward(request, response);
+            // String nomeDaPaginaDeResposta = tratador.processar(request, response);
+            // request.getRequestDispatcher(nomeDaPaginaDeResposta).forward(request, response);
+            request.getRequestDispatcher("").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("EXCESSAO_CONTROLLER", e.toString());
             request.getRequestDispatcher("/erro.jsp").forward(request, response);
