@@ -10,8 +10,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
-        <title>Medidores</title>
+
+        <title>S.M.A.R.T. Home 2019® - Home Automation for the Nation</title>
         
         <style>
             table {
@@ -65,6 +67,65 @@
                 td:nth-of-type(5):before { content: "Data & Hora"; }
                 td:nth-of-type(6):before { content: "Serial"; }
         }
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+            
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+            
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+            
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+            
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
+            
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+            
+            .slider.round {
+                border-radius: 34px;
+            }
+            
+            .slider.round:before {
+                border-radius: 50%;
+            }
         </style>
     </head>
     
@@ -74,55 +135,80 @@
     
     <body>
         <center>
+        <nav class="navbar navbar-dark sticky-top bg-dark">
+            <a class="button" href="pagina2.jsp">Cadastrar</a>
+            
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-lg fa-home"></i>
+                S.M.A.R.T. Home 2019<sup>®</sup>
+            </a>
+            <a class="button" href="#">Sair</a>
+        </nav>
         <br>
         <br>
         <h1 class="display-1">Medidores</h1>
         <br>
         <br>
 
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <table class="table table-hover">
-                    <thead> 
-                    <tr>
-                            <th>Serial #</th>
-                            <th>Medidor</th>
-                            <th>Temperatura</th>                    
-                            <th>Umidade</th>
-                            <th>Data & Hora</th>
-                            <th>Serial</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                <%  
-                    Class.forName("org.postgresql.Driver");
-                    Connection con = DriverManager.getConnection(
-                            "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
-                            "tempumidade",                                  //User
-                            "tempumidade"); 
-                    Statement stmt = con.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT * FROM public.medidor001;");
+                <div class="form-group col">
+                    <!-- <label for="selectMedidor">Medidor</label> -->
+                    <select class="custom-select" id="selectMedidor">
+                        <option selected value="">Medidor</option>
+                            <%  
+                                Class.forName("org.postgresql.Driver");
+                                Connection con = DriverManager.getConnection(
+                                        "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
+                                        "tempumidade",                                  //User
+                                        "tempumidade"); 
+                                Statement stmt = con.createStatement();
+                                ResultSet rs = stmt.executeQuery("SELECT * FROM public.medidores;");
 
-                    while(rs.next()){ 
-                %>
-                        <tr>
-                            <td><%= rs.getInt("serialno") %></td>
-                            <td><%= rs.getString("medidor") %></td>
-                            <td><%= rs.getInt("temperatura") %></td>
-                            <td><%= rs.getInt("umidade") %></td>
-                            <td><%= rs.getString("datahora") %></td>
-                            <td><%= rs.getString("serial") %></td>
-                        </tr>
-                <% 
-                    }
-                    if (stmt != null) { stmt.close(); }
-                %>
-                    </tbody>
-                </table>
+                                while(rs.next()){ 
+                            %>
+                            <option value="<%= rs.getInt(1) %>"><%= rs.getString("nome") %></option>
+                            <% 
+                                }
+                                if (stmt != null) { stmt.close(); }
+                            %>
+                        <!-- TODO: insert some JSP here 2019-05-22 14:05:43 -->
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <!-- <label for="selectMedidor">Período</label> -->
+                    <select class="custom-select" id="selectPeriodo">
+                        <option selected value="">Período</option>
+                        <option value="d">Diário</option>
+                        <option value="s">Semanal</option>
+                        <option value="m">Mensal</option>
+                        <option value="a">Anual</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <!-- <label for="start">Data final</label> -->
+
+                    <input type="datetime-local" id="start" name="trip-start"
+                        value="2018-07-22" class="custom-select"
+                        min="2018-01-01" max="2018-12-31">
+                </div>
+                <div class="form-group col">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>Gráfico
+                </div>
+                <div class="form-group col">
+                    <a type="button" role="button" class="btn btn-secondary" href="">LER</a>
+                </div>
             </div>
+            </div>
+
+
+            
         </div>
 
-        <div class="container" style="margin-top:20px">
+        <div class="container invisible" style="margin-top:20px">
             <div class="row" style="display: block">
                 <form method="POST" id="novo_medidor" action="/controller">
 
@@ -185,7 +271,7 @@
                                     if (updateQuery != 0) { %>
                                         <br>
                                         <table style="background-color: #E3E4FA;" WIDTH="30%" border="1">
-                                            <tr><th>Data is inserted successfully in database.</th></tr>
+                                            <tr><th>Concluído</th></tr>
                                         </table>
 
                                 <%
