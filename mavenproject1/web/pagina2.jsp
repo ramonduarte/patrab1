@@ -15,7 +15,7 @@
 
         <style>
             table {
-                width: 100%; 
+                width: 80%; 
                 border-collapse: collapse; 
             }
             /* tr:nth-of-type(odd) { background: #eee; } */
@@ -129,17 +129,17 @@
     
     <body>
         <nav class="navbar navbar-dark sticky-top bg-dark">
-            <a class="button" onclick="history.back()">Voltar</a>
+            <a class="btn btn-primary" onclick="history.back()" style="color:white">Voltar</a>
             
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <i class="fas fa-lg fa-home"></i>
                 S.M.A.R.T. Home 2019<sup>®</sup>
             </a>
-            <a class="button" href="google.com">Sair</a>
+            <a class="btn btn-primary" href="google.com">Sair</a>
         </nav>
         <br>
         <br>
-        <h1 class="display-1">Medidores cadastrados</h1>
+        <h1 class="display-1" style="text-align: center">Medidores cadastrados</h1>
         <br>
         <br>
 
@@ -167,7 +167,8 @@
                     <input class="btn btn-outline-primary" type="submit" name="botaoSubmit"
                     value="ENVIAR"/>
                 </div>
-
+                <br>
+                <br>
                 <div class="row">
                     <table class="table table-hover">
                         <thead> 

@@ -17,7 +17,7 @@
         
         <style>
             table {
-                width: 100%; 
+                width: 80%; 
                 border-collapse: collapse; 
             }
             /* tr:nth-of-type(odd) { background: #eee; } */
@@ -104,6 +104,10 @@
                 -webkit-transition: .4s;
                 transition: .4s;
             }
+
+            .slider::after {
+                content: "";
+            }
             
             input:checked + .slider {
                 background-color: #2196F3;
@@ -137,7 +141,7 @@
         <nav class="navbar navbar-dark sticky-top bg-dark">
             <a class="button" href="pagina2.jsp">Cadastrar</a>
             
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <i class="fas fa-lg fa-home"></i>
                 S.M.A.R.T. Home 2019<sup>®</sup>
             </a>
@@ -145,7 +149,7 @@
         </nav>
         <br>
         <br>
-        <h1 class="display-1">Medidores</h1>
+        <h1 class="display-1" style="text-align: center">Medidores</h1>
         <br>
         <br>
 
