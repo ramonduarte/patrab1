@@ -141,7 +141,7 @@
                 <i class="fas fa-lg fa-home"></i>
                 S.M.A.R.T. Home 2019<sup>®</sup>
             </a>
-            <a class="button" href="#">Sair</a>
+            <a class="button" href="google.com">Sair</a>
         </nav>
         <br>
         <br>
