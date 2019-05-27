@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/src/main/java/eel418/servlet_de_leitura/AcessoBD.java</file>
+            <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/web/META-INF/context.xml</file>
+            <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/pom.xml</file>
+            <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/web/pagina1.jsp</file>
+            <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/web/WEB-INF/web.xml</file>
+            <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/src/main/java/eel418/servlet_de_leitura/Leitura.java</file>
+            <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/src/main/webapp/index.html</file>
+        </group>
     </open-files>
 </project-private>

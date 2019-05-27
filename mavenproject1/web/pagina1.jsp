@@ -134,7 +134,6 @@
     <!-- ========================================= -->
     
     <body>
-        <center>
         <nav class="navbar navbar-dark sticky-top bg-dark">
             <a class="button" href="pagina2.jsp">Cadastrar</a>
             
@@ -151,56 +150,102 @@
         <br>
 
         <div class="container">
+            <form action="/mavenproject1/requestcontroller" method="get">
+                <div class="row">
+                    <div class="form-group col">
+                        <!-- <label for="selectMedidor">Medidor</label> -->
+                        <select class="custom-select" id="selectMedidor" name="medidor">
+                            <option selected value="">Medidor</option>
+                                <%  
+                                    Class.forName("org.postgresql.Driver");
+                                    Connection con = DriverManager.getConnection(
+                                            "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
+                                            "tempumidade",                                  //User
+                                            "tempumidade"); 
+                                    Statement stmt = con.createStatement();
+                                    ResultSet rs = stmt.executeQuery("SELECT * FROM public.medidores;");
+
+                                    while(rs.next()){ 
+                                %>
+                                <option value="<%= rs.getString(3) %>"><%= rs.getString("nome") %></option>
+                                <% 
+                                    }
+                                    if (stmt != null) { stmt.close(); }
+                                %>
+                            <!-- TODO: insert some JSP here 2019-05-22 14:05:43 -->
+                        </select>
+                    </div>
+                    <div class="form-group col">
+                        <!-- <label for="selectMedidor">Período</label> -->
+                        <select class="custom-select" id="selectPeriodo" name="periodo">
+                            <option selected value="">Período</option>
+                            <option value="d">Diário</option>
+                            <option value="s">Semanal</option>
+                            <option value="m">Mensal</option>
+                            <option value="a">Anual</option>
+                        </select>
+                    </div>
+                    <div class="form-group col">
+                        <!-- <label for="start">Data final</label> -->
+
+                        <input type="datetime-local" id="start" name="datafinal"
+                            value="2018-07-22" class="custom-select"
+                            min="2018-01-01" max="2018-12-31">
+                    </div>
+                    <div class="form-group col">
+                        <label class="switch">
+                            <input type="checkbox" name="tabela">
+                            <span class="slider round"></span>
+                        </label>Gráfico
+                    </div>
+                    <div class="form-group col">
+                        <button type="submit" role="button" class="btn btn-secondary">LER</button>
+                    </div>
+                </div>
+            </form>
+            </div>
             <div class="row">
-                <div class="form-group col">
-                    <!-- <label for="selectMedidor">Medidor</label> -->
-                    <select class="custom-select" id="selectMedidor">
-                        <option selected value="">Medidor</option>
-                            <%  
-                                Class.forName("org.postgresql.Driver");
-                                Connection con = DriverManager.getConnection(
-                                        "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
-                                        "tempumidade",                                  //User
-                                        "tempumidade"); 
-                                Statement stmt = con.createStatement();
-                                ResultSet rs = stmt.executeQuery("SELECT * FROM public.medidores;");
+                <table class="table table-hover" style="margin:0 10% 0 10%;max-width:80%;">
+                    <thead> 
+                        <tr>
+                            <th>Medidor</th>
+                            <th>Temperatura</th>                    
+                            <th>Umidade</th>
+                            <th>Data & Hora</th>
+                            <th>Serial</th>
+                        </tr>
+                    </thead>
+                    <%  
+                        Class.forName("org.postgresql.Driver");
+                        Connection con3 = DriverManager.getConnection(
+                                "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
+                                "tempumidade",                                  //User
+                                "tempumidade"); 
+                        Statement stmt3 = con3.createStatement();
+                        String med = "medidor001";
+                        if (request.getParameter("medidor") != null) {
+                            med = request.getParameter("medidor");
+                        }
+                        System.out.println(request.getParameter("medidor"));
+                        ResultSet rs3 = stmt3.executeQuery("SELECT * FROM public."
+                        + med + ";");
 
-                                while(rs.next()){ 
-                            %>
-                            <option value="<%= rs.getInt(1) %>"><%= rs.getString("nome") %></option>
-                            <% 
-                                }
-                                if (stmt != null) { stmt.close(); }
-                            %>
-                        <!-- TODO: insert some JSP here 2019-05-22 14:05:43 -->
-                    </select>
-                </div>
-                <div class="form-group col">
-                    <!-- <label for="selectMedidor">Período</label> -->
-                    <select class="custom-select" id="selectPeriodo">
-                        <option selected value="">Período</option>
-                        <option value="d">Diário</option>
-                        <option value="s">Semanal</option>
-                        <option value="m">Mensal</option>
-                        <option value="a">Anual</option>
-                    </select>
-                </div>
-                <div class="form-group col">
-                    <!-- <label for="start">Data final</label> -->
-
-                    <input type="datetime-local" id="start" name="trip-start"
-                        value="2018-07-22" class="custom-select"
-                        min="2018-01-01" max="2018-12-31">
-                </div>
-                <div class="form-group col">
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
-                    </label>Gráfico
-                </div>
-                <div class="form-group col">
-                    <a type="button" role="button" class="btn btn-secondary" href="">LER</a>
-                </div>
+                        while(rs3.next()){ 
+                    %>
+                    <tbody>
+                        <tr>
+                            <td><%= rs3.getString(2) %></td>
+                            <td><%= rs3.getString(3) %></td>
+                            <td><%= rs3.getString(4) %></td>
+                            <td><%= rs3.getString(5) %></td>
+                            <td><%= rs3.getString(6) %></td>
+                        </tr>
+                    </tbody>
+                    <% 
+                        }
+                        if (stmt3 != null) { stmt3.close(); }
+                    %>
+                </table>
             </div>
             </div>
 
@@ -209,10 +254,10 @@
         </div>
 
         <div class="container invisible" style="margin-top:20px">
-            <div class="row" style="display: block">
+            <div class="row">
                 <form method="POST" id="novo_medidor" action="/controller">
 
-                    <h3 class="display-5">Adicionar medidor:</h2>
+                    <h3 class="display-5">Adicionar medidor:</h3>
 
                     <table class="table table-hover">
                         <thead> 
@@ -237,56 +282,55 @@
                     <input class="btn btn-outline-primary" type="submit" name="botaoSubmit"
                     value="ENVIAR"/>
                 </form>
-                    <%
-                        PreparedStatement pstatement = null;
-                        int updateQuery = 0;
+                <%
+                PreparedStatement pstatement = null;
+                int updateQuery = 0;
 
-                        String medidor = request.getParameter("medidor");
-                        String temperatura = request.getParameter("temperatura");
-                        String umidade = request.getParameter("umidade");
-                        String datahora = request.getParameter("datahora");
-                        String serial = request.getParameter("serial");
+                String medidor = request.getParameter("medidor");
+                String temperatura = request.getParameter("temperatura");
+                String umidade = request.getParameter("umidade");
+                String datahora = request.getParameter("datahora");
+                String serial = request.getParameter("serial");
 
-                        if (medidor != null && temperatura != null && umidade != null
-                        && datahora != null && serial != null) {
-                            if (medidor!= "" && temperatura != "" && umidade != ""
-                            && datahora != "" && serial != "") {
-                                try {
-                                    Class.forName("org.postgresql.Driver");
-                                    Connection con2 = DriverManager.getConnection(
-                                            "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
-                                            "tempumidade",                                  //User
-                                            "tempumidade"); 
-                                    Statement stmt2 = con2.createStatement();
-                                    String queryString = "INSERT INTO "
-                                                        + "medidor001(medidor,temperatura,umidade,datahoraserial)"
-                                                        + " values(?,?,?,?,?)";
-                                    pstatement = con2.prepareStatement(queryString);
-                                    pstatement.setString(1, medidor);
-                                    pstatement.setString(2, temperatura);
-                                    pstatement.setString(3, umidade);
-                                    pstatement.setString(4, datahora);
-                                    pstatement.setString(5, serial);
-                                    updateQuery = pstatement.executeUpdate();
-                                    if (updateQuery != 0) { %>
-                                        <br>
-                                        <table style="background-color: #E3E4FA;" WIDTH="30%" border="1">
-                                            <tr><th>Concluído</th></tr>
-                                        </table>
+                if (medidor != null && temperatura != null && umidade != null
+                && datahora != null && serial != null) {
+                    if (medidor!= "" && temperatura != "" && umidade != ""
+                    && datahora != "" && serial != "") {
+                        try {
+                            Class.forName("org.postgresql.Driver");
+                            Connection con2 = DriverManager.getConnection(
+                                    "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
+                                    "tempumidade",                                  //User
+                                    "tempumidade"); 
+                            Statement stmt2 = con2.createStatement();
+                            String queryString = "INSERT INTO "
+                                                + "medidor001(medidor,temperatura,umidade,datahoraserial)"
+                                                + " values(?,?,?,?,?)";
+                            pstatement = con2.prepareStatement(queryString);
+                            pstatement.setString(1, medidor);
+                            pstatement.setString(2, temperatura);
+                            pstatement.setString(3, umidade);
+                            pstatement.setString(4, datahora);
+                            pstatement.setString(5, serial);
+                            updateQuery = pstatement.executeUpdate();
+                            if (updateQuery != 0) { %>
+                                <br>
+                                <table style="background-color: #E3E4FA;" WIDTH="30%" border="1">
+                                    <tr><th>Concluído</th></tr>
+                                </table>
 
-                                <%
-                                    }
-                                } catch (Exception e) {
-                                    out.println("Unable to connect to batabase.");
-                                } finally {
-                                    // close all the connections.
-                                    pstatement.close();
-                                }
+                        <%
                             }
+                        } catch (Exception e) {
+                            out.println("Unable to connect to batabase.");
+                        } finally {
+                            // close all the connections.
+                            pstatement.close();
                         }
-                        %>
+                    }
+                }
+                %>
             </div>
         </div>
-        </center>
     </body>
 </html>

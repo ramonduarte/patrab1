@@ -12,7 +12,6 @@
     </head>
     
     <body>
-        <center>
         <br>
         <br>
         <h1 style="font-size:48px;">Medidores</h1>
@@ -45,6 +44,5 @@
             <br>    
             <input type="submit" name="botaoSubmit" value="VOLTAR"/>
         </form>
-        </center>
     </body>
 </html>

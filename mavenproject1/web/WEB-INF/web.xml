@@ -9,6 +9,15 @@
         <servlet-name>controller</servlet-name>
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>RequestController</servlet-name>
+        <servlet-class>mvc.RequestController</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>RequestController</servlet-name>
+        <url-pattern>/requestcontroller</url-pattern>
+    </servlet-mapping>
     
     <session-config>
         <session-timeout>
