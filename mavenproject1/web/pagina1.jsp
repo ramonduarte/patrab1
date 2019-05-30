@@ -61,7 +61,7 @@
                 }
 
                 td:nth-of-type(1):before { content: "Serial #"; }
-                td:nth-of-type(2):before { content: "Medidor"; }
+                td:nth-of-type(2):before { content: "Medida"; }
                 td:nth-of-type(3):before { content: "Temperatura"; }
                 td:nth-of-type(4):before { content: "Umidade"; }
                 td:nth-of-type(5):before { content: "Data & Hora"; }
@@ -149,7 +149,7 @@
         </nav>
         <br>
         <br>
-        <h1 class="display-1" style="text-align: center">Medidores</h1>
+        <h1 class="display-1" style="text-align: center">Medidas</h1>
         <br>
         <br>
 
@@ -157,8 +157,8 @@
             <form action="/mavenproject1/requestcontroller" method="get">
                 <div class="row">
                     <div class="form-group col">
-                        <!-- <label for="selectMedidor">Medidor</label> -->
-                        <select class="custom-select" id="selectMedidor" name="medidor">
+                        <!-- <label for="selectMedida">Medida</label> -->
+                        <select class="custom-select" id="selectMedida" name="medidor">
                             <option selected value="">Medidor</option>
                                 <%  
                                     Class.forName("org.postgresql.Driver");
@@ -193,8 +193,7 @@
                         <!-- <label for="start">Data final</label> -->
 
                         <input type="datetime-local" id="start" name="datafinal"
-                            value="2018-07-22" class="custom-select"
-                            min="2018-01-01" max="2018-12-31">
+                            value="2019-05-31" class="custom-select">
                     </div>
                     <div class="form-group col">
                         <label class="switch">
@@ -261,7 +260,7 @@
             <div class="row">
                 <form method="POST" id="novo_medidor" action="/controller">
 
-                    <h3 class="display-5">Adicionar medidor:</h3>
+                    <h3 class="display-5">Adicionar medida:</h3>
 
                     <table class="table table-hover">
                         <thead> 

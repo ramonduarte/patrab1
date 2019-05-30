@@ -2,12 +2,14 @@ package mvc;
 
 import java.sql.Statement;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,11 +22,26 @@ import javax.servlet.http.HttpServletResponse;
 // import javax.ws.rs.GET;
 // import javax.ws.rs.Path;
 
+
+
+
+
 @WebServlet(name = "RequestController", urlPatterns = { "/mavenproject1/requestcontroller" })
 // @Controller
 public class RequestController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+
+    private Long emMilissegundos(int dias){
+        Long res = Long.valueOf(dias * 24 * 60 * 60 * 1000);
+        return res;
+    }
+
+    public Timestamp subtrai(int dias, Timestamp t) {
+        Long milissegundos = emMilissegundos(dias);
+        return new Timestamp(t.getTime() - milissegundos);
+    }
+    
 
     // Este controlador pode chamar vários handlers (tratadores de páginas)
     // Todos os hamdlers implementam a mesma interface.
@@ -100,10 +117,36 @@ public class RequestController extends HttpServlet {
             } else {
                 String medidor = request.getParameter("medidor");
                 String periodo = request.getParameter("periodo");
-                String datafinal = request.getParameter("datafinal");
+                String[] s_datafinal = request.getParameter("datafinal").split("T");
+                System.out.println(s_datafinal[0] + " " + s_datafinal[1] + ":00");
+                Timestamp datafinal = Timestamp.valueOf(s_datafinal[0] + " " + s_datafinal[1] + ":00");
+                Timestamp datainicial;
+                System.out.println("switch block");
 
+                switch (periodo) {
+                    case "s":
+                        datainicial = subtrai(7, datafinal);
+                        break;
+                    case "m":
+                        datainicial = subtrai(30, datafinal);
+                        break;
+                    case "a":
+                        datainicial = subtrai(365, datafinal);
+                        break;
+                    case "d":
+                        datainicial = datafinal;
+                        break;
+                    default:
+                        datainicial = subtrai(36500, datafinal);
+                        break;
+                }
+
+                System.out.println("building query");
                 Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM public." + medidor + ";");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM public." + medidor
+                                                 + " WHERE datahora BETWEEN "
+                                                 + datainicial + " AND " + datafinal
+                                                 + ";");
                 // + " where "
                 // + "VALUES(" + medidor + ","
                 // + temperatura + "," + umidade + ","
@@ -120,52 +163,114 @@ public class RequestController extends HttpServlet {
             }
 
         } catch (Exception e) {
+            request.setCharacterEncoding("UTF8");
+            response.setCharacterEncoding("UTF8");
+            String method2 = request.getMethod().toLowerCase();
+
             String serialno_medidores;
             String nome;
             String tabela;
+            
+            System.out.println(method2);
+            System.out.println(method2 == "post");
             System.out.println("começando");
 
-            try {
-                serialno_medidores = request.getParameter("serialno_medidores");
-                nome = request.getParameter("nome");
-                tabela = request.getParameter("tabela");
-            } catch (Exception b) {
-                PrintWriter writer = response.getWriter();
-                Enumeration<String> enm = request.getParameterNames();
-                serialno_medidores = request.getParameter(enm.nextElement());
-                nome = request.getParameter(enm.nextElement());
-                tabela = request.getParameter(enm.nextElement());
-                while (enm.hasMoreElements())
-                    // System.out.println(enm.nextElement());
-                    System.out.println(request.getParameter(enm.nextElement()));
-                writer.close();
-            }
-            System.out.println("ok até aqui");
-            System.out.println(tabela);
+            if (request.getParameter("serialno_medidores") != null) {
+                System.out.println("post confirmado");
+                try {
+                    serialno_medidores = request.getParameter("serialno_medidores");
+                    nome = request.getParameter("nome");
+                    tabela = request.getParameter("tabela");
+                } catch (Exception b) {
+                    PrintWriter writer = response.getWriter();
+                    Enumeration<String> enm = request.getParameterNames();
+                    serialno_medidores = request.getParameter(enm.nextElement());
+                    nome = request.getParameter(enm.nextElement());
+                    tabela = request.getParameter(enm.nextElement());
+                    while (enm.hasMoreElements())
+                        // System.out.println(enm.nextElement());
+                        System.out.println(request.getParameter(enm.nextElement()));
+                    writer.close();
+                }
+                System.out.println("ok até aqui");
+                System.out.println(tabela);
 
-            // Class.forName("org.postgresql.Driver");
-            // Connection con = DriverManager.getConnection(
-            // "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
-            // "tempumidade", //User
-            // "tempumidade");
+                // Class.forName("org.postgresql.Driver");
+                // Connection con = DriverManager.getConnection(
+                // "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
+                // "tempumidade", //User
+                // "tempumidade");
 
-            Statement stmt4 = con.createStatement();
-            try {
-                stmt4.executeQuery("CREATE TABLE public." + tabela + " (serialno integer NOT NULL,"
-                        + "medidor text NOT NULL," + "temperatura text NOT NULL," + "umidade text NOT NULL,"
-                        + "datahora timestamp with time zone NOT NULL," + "serial text NOT NULL);"
-                        + "CREATE SEQUENCE public." + tabela + "_serialno_seq AS integer " + "START WITH 1 INCREMENT BY 1 "
-                        + "NO MINVALUE NO MAXVALUE CACHE 1;" + "ALTER SEQUENCE public." + tabela
-                        + "_serialno_seq OWNED BY public." + tabela + ".serialno;" + "INSERT INTO public.medidores("
-                        + "serialno_medidores,nome,tabela) " + "values(" + serialno_medidores + ",'" + nome + "','" + tabela
-                        + "');");
-                
-            } catch (Exception f) {
+                Statement stmt4 = con.createStatement();
+                try {
+                    stmt4.executeQuery("CREATE TABLE public." + tabela + " (serialno integer NOT NULL,"
+                            + "medidor text NOT NULL," + "temperatura text NOT NULL," + "umidade text NOT NULL,"
+                            + "datahora timestamp with time zone NOT NULL," + "serial text NOT NULL);"
+                            + "CREATE SEQUENCE public." + tabela + "_serialno_seq AS integer " + "START WITH 1 INCREMENT BY 1 "
+                            + "NO MINVALUE NO MAXVALUE CACHE 1;" + "ALTER SEQUENCE public." + tabela
+                            + "_serialno_seq OWNED BY public." + tabela + ".serialno;" + "INSERT INTO public.medidores("
+                            + "serialno_medidores,nome,tabela) " + "values(" + serialno_medidores + ",'" + nome + "','" + tabela
+                            + "');");
+                    
+                } catch (Exception f) {
+                    request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
+                }
+
+                request.setAttribute("EXCESSAO_CONTROLLER", e.toString());
                 request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
-            }
+            } else {
 
-            request.setAttribute("EXCESSAO_CONTROLLER", e.toString());
-            request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
+                String medidor = request.getParameter("medidor");
+                String periodo = request.getParameter("periodo");
+                String r_datafinal = request.getParameter("datafinal");
+                if (r_datafinal == null) {
+                    r_datafinal = "2019-05-13T16:54:00.0";
+                }
+                String[] s_datafinal = r_datafinal.split("T");
+                System.out.println(s_datafinal[0] + " " + s_datafinal[1] + ":00");
+                Timestamp datafinal = Timestamp.valueOf(s_datafinal[0] + " " + s_datafinal[1] + ":00");
+                Timestamp datainicial;
+                System.out.println("switch block");
+
+                switch (periodo) {
+                    case "s":
+                        datainicial = subtrai(7, datafinal);
+                        break;
+                    case "m":
+                        datainicial = subtrai(30, datafinal);
+                        break;
+                    case "a":
+                        datainicial = subtrai(365, datafinal);
+                        break;
+                    case "d":
+                        datainicial = datafinal;
+                        break;
+                    default:
+                        datainicial = subtrai(36500, datafinal);
+                        break;
+                }
+
+                System.out.println("building query");
+                
+                Statement stmt = con.createStatement();
+                System.out.println("SELECT * FROM public." + medidor
+                + " WHERE datahora BETWEEN '"
+                + datainicial + "00' AND '" + datafinal
+                + "00';");
+
+                ResultSet rs = stmt.executeQuery("SELECT * FROM public." + medidor
+                                                 + " WHERE datahora BETWEEN '"
+                                                 + datainicial + "00' AND '" + datafinal
+                                                 + "00';");
+
+                // tratador = (IFTratadorDePaginas) Class.forName(medidor).newInstance();
+                System.out.println("SELECT * FROM public." + medidor + ";");
+
+                // String nomeDaPaginaDeResposta = tratador.processar(request, response);
+                // request.getRequestDispatcher(nomeDaPaginaDeResposta).forward(request,
+                // response);
+                request.getRequestDispatcher("").forward(request, response);
+            }
         }
     }
 
