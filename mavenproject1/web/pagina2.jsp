@@ -124,6 +124,14 @@
             .slider.round:before {
                 border-radius: 50%;
             }
+
+            .edit-cell {
+                color: green;
+            }
+
+            .remove-cell {
+                color: darkred;
+            }
         </style>
     </head>
     
@@ -176,6 +184,8 @@
                                 <th>Serial #</th>
                                 <th>Nome</th>                    
                                 <th>Tabela</th>
+                                <th>Salvar edições</th>
+                                <th>Remover</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -188,14 +198,41 @@
                                 Statement stmt = con.createStatement();
                                 ResultSet rs = stmt.executeQuery("SELECT * FROM public.medidores;");
 
+                                int contador = 0;
+
                                 while(rs.next()){ 
                             %>
                             <tr>
-                                <td><%= rs.getString(1) %></td>
-                                <td><%= rs.getString(2) %></td>
+                                <td contenteditable='true' id="<%= contador %>_serial_editavel"><%= rs.getString(1) %></td>
+                                <td contenteditable='true' id="<%= contador %>_nome_editavel"><%= rs.getString(2) %></td>
                                 <td><%= rs.getString(3) %></td>
+                                <td>
+                                    <form action="/mavenproject1/requestcontroller" method="post">
+                                        <input type="hidden" value="<%= rs.getString(1) %>" id="<%= contador %>_serial" name="serialno_medidores" />
+                                        <input type="hidden" value="<%= rs.getString(2) %>" id="<%= contador %>_nome" name="nome" />
+                                        <input type="hidden" value="<%= rs.getString(3) %>" id="<%= contador %>" name="tabela" />
+                                        <input type="hidden" value="edit" name="operation" />
+                                        <button class="btn btn-success fas fa-check-circle"></button>
+                                        <script>
+                                            document.getElementById("<%= contador %>_serial_editavel").addEventListener("change", function() {
+                                                document.getElementById("<%= contador %>_serial").value = document.getElementById("<%= contador %>_serial_editavel");
+                                            });
+                                        </script>
+                                        <script>
+                                            document.getElementById("<%= contador %>_nome_editavel").addEventListener("change", function() {
+                                                document.getElementById("<%= contador %>_nome").value = document.getElementById("<%= contador %>_nome_editavel");
+                                            });
+                                        </script>
+                                    </form></td>
+                                <td>
+                                    <form action="/mavenproject1/requestcontroller" method="post">
+                                        <input type="hidden" value="<%= rs.getString(3) %>" name="tabela" />
+                                        <input type="hidden" value="delete" name="operation" />
+                                        <button class="btn btn-danger fas fa-times-circle" ></button>
+                                    </form></td>
                             </tr>
                             <% 
+                                    contador++;
                                 }
                                 if (stmt != null) { stmt.close(); }
                             %>
@@ -208,6 +245,8 @@
 
             </div>
         </div>
+
+        
 
     </body>
 </html>

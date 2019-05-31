@@ -172,52 +172,81 @@ public class RequestController extends HttpServlet {
             String tabela;
             
             System.out.println(method2);
-            System.out.println(method2 == "post");
+            System.out.println(method2.equals("post"));
             System.out.println("começando");
 
-            if (request.getParameter("serialno_medidores") != null) {
+            if (request.getParameter("tabela") != null) {
                 System.out.println("post confirmado");
-                try {
-                    serialno_medidores = request.getParameter("serialno_medidores");
-                    nome = request.getParameter("nome");
+                if (request.getParameter("operation").equalsIgnoreCase("delete")) {
                     tabela = request.getParameter("tabela");
-                } catch (Exception b) {
-                    PrintWriter writer = response.getWriter();
-                    Enumeration<String> enm = request.getParameterNames();
-                    serialno_medidores = request.getParameter(enm.nextElement());
-                    nome = request.getParameter(enm.nextElement());
-                    tabela = request.getParameter(enm.nextElement());
-                    while (enm.hasMoreElements())
-                        // System.out.println(enm.nextElement());
-                        System.out.println(request.getParameter(enm.nextElement()));
-                    writer.close();
-                }
-                System.out.println("ok até aqui");
-                System.out.println(tabela);
 
-                // Class.forName("org.postgresql.Driver");
-                // Connection con = DriverManager.getConnection(
-                // "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
-                // "tempumidade", //User
-                // "tempumidade");
-
-                Statement stmt4 = con.createStatement();
-                try {
-                    stmt4.executeQuery("CREATE TABLE public." + tabela + " (serialno integer NOT NULL,"
-                            + "medidor text NOT NULL," + "temperatura text NOT NULL," + "umidade text NOT NULL,"
-                            + "datahora timestamp with time zone NOT NULL," + "serial text NOT NULL);"
-                            + "CREATE SEQUENCE public." + tabela + "_serialno_seq AS integer " + "START WITH 1 INCREMENT BY 1 "
-                            + "NO MINVALUE NO MAXVALUE CACHE 1;" + "ALTER SEQUENCE public." + tabela
-                            + "_serialno_seq OWNED BY public." + tabela + ".serialno;" + "INSERT INTO public.medidores("
-                            + "serialno_medidores,nome,tabela) " + "values(" + serialno_medidores + ",'" + nome + "','" + tabela
-                            + "');");
-                    
-                } catch (Exception f) {
+                    Statement stmt4 = con.createStatement();
+                    stmt4.executeUpdate("DELETE FROM public.medidores WHERE tabela = '" + tabela + "';");
+                    try {
+                        request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
+                    } catch (Exception f) {
+                        request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
+                    }
+                    System.out.println("operação de remoção");
+    
+                } else if (request.getParameter("operation").equalsIgnoreCase("edit")) {
+                    try {
+                        serialno_medidores = request.getParameter("serialno_medidores");
+                        nome = request.getParameter("nome");
+                        tabela = request.getParameter("tabela");
+                    } catch (Exception b) {
+                        PrintWriter writer = response.getWriter();
+                        Enumeration<String> enm = request.getParameterNames();
+                        serialno_medidores = request.getParameter(enm.nextElement());
+                        nome = request.getParameter(enm.nextElement());
+                        tabela = request.getParameter(enm.nextElement());
+                        while (enm.hasMoreElements())
+                            System.out.println(request.getParameter(enm.nextElement()));
+                        writer.close();
+                    }
+                } else {
+                    try {
+                        serialno_medidores = request.getParameter("serialno_medidores");
+                        nome = request.getParameter("nome");
+                        tabela = request.getParameter("tabela");
+                    } catch (Exception b) {
+                        PrintWriter writer = response.getWriter();
+                        Enumeration<String> enm = request.getParameterNames();
+                        serialno_medidores = request.getParameter(enm.nextElement());
+                        nome = request.getParameter(enm.nextElement());
+                        tabela = request.getParameter(enm.nextElement());
+                        while (enm.hasMoreElements())
+                            // System.out.println(enm.nextElement());
+                            System.out.println(request.getParameter(enm.nextElement()));
+                        writer.close();
+                    }
+                    System.out.println("ok até aqui");
+                    System.out.println(tabela);
+    
+                    // Class.forName("org.postgresql.Driver");
+                    // Connection con = DriverManager.getConnection(
+                    // "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
+                    // "tempumidade", //User
+                    // "tempumidade");
+    
+                    Statement stmt4 = con.createStatement();
+                    try {
+                        stmt4.executeQuery("CREATE TABLE public." + tabela + " (serialno integer NOT NULL,"
+                                + "medidor text NOT NULL," + "temperatura text NOT NULL," + "umidade text NOT NULL,"
+                                + "datahora timestamp with time zone NOT NULL," + "serial text NOT NULL);"
+                                + "CREATE SEQUENCE public." + tabela + "_serialno_seq AS integer " + "START WITH 1 INCREMENT BY 1 "
+                                + "NO MINVALUE NO MAXVALUE CACHE 1;" + "ALTER SEQUENCE public." + tabela
+                                + "_serialno_seq OWNED BY public." + tabela + ".serialno;" + "INSERT INTO public.medidores("
+                                + "serialno_medidores,nome,tabela) " + "values(" + serialno_medidores + ",'" + nome + "','" + tabela
+                                + "');");
+                        
+                    } catch (Exception f) {
+                        request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
+                    }
+    
+                    request.setAttribute("EXCESSAO_CONTROLLER", e.toString());
                     request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
                 }
-
-                request.setAttribute("EXCESSAO_CONTROLLER", e.toString());
-                request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
             } else {
 
                 String medidor = request.getParameter("medidor");
