@@ -182,28 +182,23 @@ public class RequestController extends HttpServlet {
 
                     Statement stmt4 = con.createStatement();
                     stmt4.executeUpdate("DELETE FROM public.medidores WHERE tabela = '" + tabela + "';");
-                    try {
-                        request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
-                    } catch (Exception f) {
-                        request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
-                    }
+                    request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
                     System.out.println("operação de remoção");
     
                 } else if (request.getParameter("operation").equalsIgnoreCase("edit")) {
-                    try {
-                        serialno_medidores = request.getParameter("serialno_medidores");
-                        nome = request.getParameter("nome");
-                        tabela = request.getParameter("tabela");
-                    } catch (Exception b) {
-                        PrintWriter writer = response.getWriter();
-                        Enumeration<String> enm = request.getParameterNames();
-                        serialno_medidores = request.getParameter(enm.nextElement());
-                        nome = request.getParameter(enm.nextElement());
-                        tabela = request.getParameter(enm.nextElement());
-                        while (enm.hasMoreElements())
-                            System.out.println(request.getParameter(enm.nextElement()));
-                        writer.close();
-                    }
+                    serialno_medidores = request.getParameter("serialno_medidores");
+                    nome = request.getParameter("nome");
+                    tabela = request.getParameter("tabela");
+
+                    Statement stmt4 = con.createStatement();
+                    System.out.println("UPDATE public.medidores SET serialno_medidores = '"
+                    + serialno_medidores + "', nome = '" + nome
+                    + "' WHERE tabela = '" + tabela + "';");
+                    stmt4.executeUpdate("UPDATE public.medidores SET serialno_medidores = '"
+                                        + serialno_medidores + "', nome = '" + nome
+                                        + "' WHERE tabela = '" + tabela + "';");
+                    request.getRequestDispatcher("/pagina2.jsp").forward(request, response);
+                    System.out.println("operação de edição");
                 } else {
                     try {
                         serialno_medidores = request.getParameter("serialno_medidores");

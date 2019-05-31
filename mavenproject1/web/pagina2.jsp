@@ -214,13 +214,11 @@
                                         <input type="hidden" value="edit" name="operation" />
                                         <button class="btn btn-success fas fa-check-circle"></button>
                                         <script>
-                                            document.getElementById("<%= contador %>_serial_editavel").addEventListener("change", function() {
-                                                document.getElementById("<%= contador %>_serial").value = document.getElementById("<%= contador %>_serial_editavel");
+                                            document.getElementById("<%= contador %>_serial_editavel").addEventListener("keyup", function() {
+                                                document.getElementById("<%= contador %>_serial").value = document.getElementById("<%= contador %>_serial_editavel").innerHTML;
                                             });
-                                        </script>
-                                        <script>
-                                            document.getElementById("<%= contador %>_nome_editavel").addEventListener("change", function() {
-                                                document.getElementById("<%= contador %>_nome").value = document.getElementById("<%= contador %>_nome_editavel");
+                                            document.getElementById("<%= contador %>_nome_editavel").addEventListener("keyup", function() {
+                                                document.getElementById("<%= contador %>_nome").value = document.getElementById("<%= contador %>_nome_editavel").innerHTML;
                                             });
                                         </script>
                                     </form></td>
