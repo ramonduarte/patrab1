@@ -12,13 +12,11 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 
 
         <title>S.M.A.R.T. Home 2019® - Home Automation for the Nation</title>
-        
-        <style>
-            
-        </style>
+
     </head>
     
     <!-- ========================================= -->
@@ -85,19 +83,19 @@
                     </div>
                     <div class="form-group col">
                         <label class="switch">
-                            <input type="checkbox" name="tabela">
+                            <input type="checkbox" name="tabela" id="selectTabela">
                             <span class="slider round"></span>
                         </label>
                         <span class="badge badge-primary" style="vertical-align: sub">Gráfico</span>
                     </div>
                     <div class="form-group col">
-                        <button type="submit" role="button" class="btn btn-primary">LER</button>
+                        <button id="botaoLer" type="submit" role="button" class="btn btn-primary">LER</button>
                     </div>
                 </div>
             </form>
             </div>
             <div class="row">
-                <table class="table table-hover" style="margin:0 10% 0 10%;max-width:80%;">
+                <table id="tabelaMedidas" class="table table-hover" style="margin:0 10% 0 10%;max-width:80%;">
                     <thead> 
                         <tr>
                             <th>Medidor</th>
@@ -145,84 +143,10 @@
             
         </div>
 
-        <div class="container invisible" style="margin-top:20px">
-            <div class="row">
-                <form method="POST" id="novo_medidor" action="/controller">
-
-                    <h3 class="display-5">Adicionar medida:</h3>
-
-                    <table class="table table-hover">
-                        <thead> 
-                        <tr>
-                                <th>Medidor</th>
-                                <th>Temperatura</th>                    
-                                <th>Umidade</th>
-                                <th>Data & Hora</th>
-                                <th>Serial</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="text" name="medidor"></td>
-                                <td><input type="text" name="temperatura"></td>
-                                <td><input type="text" name="umidade"></td>
-                                <td><input type="text" name="datahora"></td>
-                                <td><input type="text" name="serial"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <input class="btn btn-outline-primary" type="submit" name="botaoSubmit"
-                    value="ENVIAR"/>
-                </form>
-                <%
-                PreparedStatement pstatement = null;
-                int updateQuery = 0;
-
-                String medidor = request.getParameter("medidor");
-                String temperatura = request.getParameter("temperatura");
-                String umidade = request.getParameter("umidade");
-                String datahora = request.getParameter("datahora");
-                String serial = request.getParameter("serial");
-
-                if (medidor != null && temperatura != null && umidade != null
-                && datahora != null && serial != null) {
-                    if (medidor!= "" && temperatura != "" && umidade != ""
-                    && datahora != "" && serial != "") {
-                        try {
-                            Class.forName("org.postgresql.Driver");
-                            Connection con2 = DriverManager.getConnection(
-                                    "jdbc:postgresql://localhost:5432/tempumidade", //Database URL
-                                    "tempumidade",                                  //User
-                                    "tempumidade"); 
-                            Statement stmt2 = con2.createStatement();
-                            String queryString = "INSERT INTO "
-                                                + "medidor001(medidor,temperatura,umidade,datahoraserial)"
-                                                + " values(?,?,?,?,?)";
-                            pstatement = con2.prepareStatement(queryString);
-                            pstatement.setString(1, medidor);
-                            pstatement.setString(2, temperatura);
-                            pstatement.setString(3, umidade);
-                            pstatement.setString(4, datahora);
-                            pstatement.setString(5, serial);
-                            updateQuery = pstatement.executeUpdate();
-                            if (updateQuery != 0) { %>
-                                <br>
-                                <table style="background-color: #E3E4FA;" WIDTH="30%" border="1">
-                                    <tr><th>Concluído</th></tr>
-                                </table>
-
-                        <%
-                            }
-                        } catch (Exception e) {
-                            out.println("Unable to connect to batabase.");
-                        } finally {
-                            // close all the connections.
-                            pstatement.close();
-                        }
-                    }
-                }
-                %>
-            </div>
-        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+        <script src="js/script.js"></script>
     </body>
 </html>
