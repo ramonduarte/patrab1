@@ -4,7 +4,10 @@
         <servlet-name>controller</servlet-name>
         <servlet-class>mvc.Controller</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>Ajax</servlet-name>
+        <servlet-class>mvc.Ajax</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>controller</servlet-name>
         <url-pattern>/controller</url-pattern>
@@ -13,20 +16,20 @@
         <servlet-name>RequestController</servlet-name>
         <servlet-class>mvc.RequestController</servlet-class>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>RequestController</servlet-name>
         <url-pattern>/requestcontroller</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>Ajax</servlet-name>
+        <url-pattern>/Ajax</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    
     <welcome-file-list>
         <welcome-file>pagina1.jsp</welcome-file>
     </welcome-file-list>
-    
 </web-app>

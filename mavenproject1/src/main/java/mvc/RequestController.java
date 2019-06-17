@@ -50,7 +50,6 @@ public class RequestController extends HttpServlet {
 
         request.setCharacterEncoding("UTF8");
         response.setCharacterEncoding("UTF8");
-        IFTratadorDePaginas tratador;
         String method = request.getMethod().toLowerCase();
 
         Class.forName("org.postgresql.Driver");
