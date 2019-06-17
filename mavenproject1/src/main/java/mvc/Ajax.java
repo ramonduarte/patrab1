@@ -90,6 +90,28 @@ public class Ajax extends HttpServlet {
                     response.getOutputStream().flush();
                     writer.close();
                     if (stmt != null) { stmt.close(); }
+                } else if (request.getParameter("medidores").equals("sensores")) {
+                    Statement stmt = con.createStatement();
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM public.medidores;");
+
+                    response.setContentType("application/json; charset=UTF-8");
+                    response.setCharacterEncoding("UTF-8");
+                    
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    JsonWriter writer = new JsonWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-8"));
+                    writer.beginArray();
+                    while(rs.next()) {
+                        writer.beginObject();
+                        for(int idx=1; idx<=rsmd.getColumnCount(); idx++) {
+                            writer.name(rsmd.getColumnLabel(idx));
+                            writer.value(rs.getString(idx));
+                        }
+                        writer.endObject();
+                    }
+                    writer.endArray(); 
+                    response.getOutputStream().flush();
+                    writer.close();
+                    if (stmt != null) { stmt.close(); }
                 } else {
                     String medidor = request.getParameter("medidor");
                     String periodo = request.getParameter("periodo");
