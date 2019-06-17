@@ -62,7 +62,6 @@
                                     }
                                     if (stmt != null) { stmt.close(); }
                                 %>
-                            <!-- TODO: insert some JSP here 2019-05-22 14:05:43 -->
                         </select>
                     </div>
                     <div class="form-group col">

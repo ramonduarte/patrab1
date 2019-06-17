@@ -3,17 +3,16 @@
 var $ = jQuery;
 
 $( document ).ready(function() {
-    // $.post({
-    //     url: "/mavenproject1/Ajax",
-    //     data: { "medidores": "medidores" },
-    //     success: function(data){
-    //         $('#selectMedida').empty();
-    //         var options = $.parseJSON(data);
-    //         $.each(options, function(i, data) {
-    //             $('#selectMedida').append('<option value="' + data.value + '">' + data.name + '</option>');
-    //         });
-    //     }
-    // });
+    $.post({
+        url: "/mavenproject1/Ajax",
+        data: { "medidores": "medidores" },
+        success: function(data){
+            $('#selectMedida').empty();
+            $.each(data, function(i, data) {
+                $('#selectMedida').append('<option value="' + data["tabela"] + '">' + data["nome"] + '</option>');
+            });
+        }
+    });
 
     $("#botaoLer").click(function (e) { 
         e.preventDefault();
@@ -32,7 +31,6 @@ $( document ).ready(function() {
             success: function(data){
                 $('#tabelaMedidas tbody').remove();
                 $.each(data, function(i, data) {
-                    // TODO: fix this, most likely 2019-06-13 21:52:49
                     $('#tabelaMedidas').append("<tbody><tr><td>" + data["medidor"] + "</td><td>" +  + data["temperatura"] + "</td><td>" + data["umidade"] + "</td><td>" + data["datahora"] + "</td><td>" + data["serial"] + "</td></tr></tbody>");
                 });
             }
