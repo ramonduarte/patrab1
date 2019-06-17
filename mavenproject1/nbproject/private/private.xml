@@ -5,9 +5,11 @@
         <group>
             <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/src/main/java/eel418/servlet_de_leitura/AcessoBD.java</file>
             <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/web/META-INF/context.xml</file>
+            <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/src/main/java/mvc/Ajax.java</file>
             <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/pom.xml</file>
             <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/web/pagina1.jsp</file>
             <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/web/WEB-INF/web.xml</file>
+            <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/web/css/bootstrap.min.css</file>
             <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/src/main/java/eel418/servlet_de_leitura/Leitura.java</file>
             <file>file:/home/ramon/NetBeansProjects/patrab1/mavenproject1/src/main/webapp/index.html</file>
         </group>
