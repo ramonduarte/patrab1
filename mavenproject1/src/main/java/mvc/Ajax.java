@@ -69,7 +69,7 @@ public class Ajax extends HttpServlet {
 
         try {
             if ("post".equals(method)) {
-                System.out.println(request2.getParameter("medidores"));
+                // System.out.println(request2.getParameter("medidores"));
                 if ("medidores".equals(request2.getParameter("medidores"))) {
                     Statement stmt = con.createStatement();
                     ResultSet rs = stmt.executeQuery("SELECT * FROM public.medidores;");
@@ -123,12 +123,18 @@ public class Ajax extends HttpServlet {
                     String medidor = request2.getParameter("medidor");
                     String periodo = request2.getParameter("periodo");
                     String r_datafinal = request2.getParameter("datafinal");
+                    System.out.println(medidor + " " + periodo + " " + r_datafinal);
                     if (r_datafinal == null) {
                         r_datafinal = "2019-05-13T16:54:00.0";
                     }
+                    if (" ".equals(periodo)) {
+                        periodo = "z";
+                    }
+                    r_datafinal = r_datafinal + "T00:00:00.0";
                     String[] s_datafinal = r_datafinal.split("T");
+                    System.out.println(r_datafinal);
                     System.out.println(s_datafinal[0] + " " + s_datafinal[1] + ":00");
-                    Timestamp datafinal = Timestamp.valueOf(s_datafinal[0] + " " + s_datafinal[1] + ":00");
+                    Timestamp datafinal = Timestamp.valueOf(s_datafinal[0] + " " + s_datafinal[1]);
                     Timestamp datainicial;
                     System.out.println("switch block");
 

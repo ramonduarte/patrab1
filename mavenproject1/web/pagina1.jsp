@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
         <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 
         <title>S.M.A.R.T. Home 2019® - Home Automation for the Nation</title>
@@ -28,7 +29,7 @@
         <nav class="navbar navbar-dark sticky-top bg-dark">
             <a class="btn btn-primary" href="pagina2.jsp">Cadastrar</a>
             
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/mavenproject1/">
                 <i class="fas fa-lg fa-home"></i>
                 S.M.A.R.T. Home 2019<sup>®</sup>
             </a>
@@ -77,7 +78,7 @@
                     <div class="form-group col">
                         <!-- <label for="start">Data final</label> -->
 
-                        <input type="datetime-local" id="start" name="datafinal"
+                        <input type="date" id="start" name="datafinal"
                             value="2019-05-31" class="custom-select">
                     </div>
                     <div class="form-group col">
@@ -137,6 +138,10 @@
                     %>
                 </table>
             </div>
+            </div>
+
+            <div id="plotly" style="width: 80%;margin: auto;display:none">
+
             </div>
 
 

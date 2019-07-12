@@ -34,7 +34,7 @@
         <br>
 
         <div class="container">
-            <form action="/mavenproject1/requestcontroller" method="post">
+            <form >
                 <div class="row">
                     <h3 class="display-5">Adicionar medidor</h3>
 
@@ -48,13 +48,13 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="text" name="serialno_medidores0"></td>
-                                <td><input type="text" name="nome0"></td>
-                                <td><input type="text" name="tabela0"></td>
+                                <td><input type="text" name="serialno_medidores0" id="serialno_medidores0"></td>
+                                <td><input type="text" name="nome0" id="nome0"></td>
+                                <td><input type="text" name="tabela0" id="tabela0"></td>
                             </tr>
                         </tbody>
                     </table>
-                    <input class="btn btn-outline-primary" type="submit" name="botaoSubmit"
+                    <input class="btn btn-outline-primary" name="botaoSubmit" id="botaoSubmit"
                     value="ENVIAR"/>
                 </div>
                 <br>
@@ -89,7 +89,7 @@
                                 <td contenteditable='true' id="<%= contador %>_nome_editavel"><%= rs.getString(2) %></td>
                                 <td><%= rs.getString(3) %></td>
                                 <td>
-                                    <form action="/mavenproject1/requestcontroller" method="post">
+                                    <form >
                                         <input type="hidden" value="<%= rs.getString(1) %>" id="<%= contador %>_serial" name="serialno_medidores1" />
                                         <input type="hidden" value="<%= rs.getString(2) %>" id="<%= contador %>_nome" name="nome1" />
                                         <input type="hidden" value="<%= rs.getString(3) %>" id="<%= contador %>" name="tabela1" />
@@ -105,8 +105,8 @@
                                         </script>
                                     </form></td>
                                 <td>
-                                    <form action="/mavenproject1/requestcontroller" method="post">
-                                        <input type="hidden" value="<%= rs.getString(3) %>" name="tabela2" />
+                                    <form>
+                                        <input type="hidden" value="<%= rs.getString(3) %>" name="tabela2" id="tabela2" />
                                         <input type="hidden" value="delete" name="operation" />
                                         <button class="btn btn-danger fas fa-times-circle" ></button>
                                     </form></td>
@@ -129,8 +129,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
-        <script src="js/script.js"></script>
+        <script src="js/script2.js"></script>
     </body>
 </html>
-
-
