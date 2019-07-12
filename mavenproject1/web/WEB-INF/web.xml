@@ -24,6 +24,14 @@
         <servlet-name>Ajax</servlet-name>
         <url-pattern>/Ajax</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>react</servlet-name>
+        <jsp-file>/mavenproject1/pagina1.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>react</servlet-name>
+        <url-pattern>/mavenproject1/*</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

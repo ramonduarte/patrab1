@@ -8,6 +8,7 @@ package mvc;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,6 +16,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -50,15 +54,19 @@ public class Ajax extends HttpServlet {
 
     public Timestamp subtrai(int dias, Timestamp t) {
         Long milissegundos = emMilissegundos(dias);
-        return new Timestamp(t.getTime() - milissegundos);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(t.getTime());
+        calendar.add(Calendar.DAY_OF_MONTH, -dias);
+        return new Timestamp(calendar.getTime().getTime());
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF8");
+        HttpServletRequest request2 = request;
+        request2.setCharacterEncoding("UTF8");
         response.setCharacterEncoding("UTF8");
-        String method = request.getMethod().toLowerCase();
+        String method = request2.getMethod().toLowerCase();
 
         Class.forName("org.postgresql.Driver");
         Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tempumidade", // Database URL
@@ -66,56 +74,61 @@ public class Ajax extends HttpServlet {
                 "tempumidade");
 
         try {
-            if (method.equals("post")) {
-                if (request.getParameter("medidores").equals("medidores")) {
+            if ("post".equals(method)) {
+                System.out.println(request2.getParameter("medidores"));
+                if ("medidores".equals(request2.getParameter("medidores"))) {
                     Statement stmt = con.createStatement();
                     ResultSet rs = stmt.executeQuery("SELECT * FROM public.medidores;");
 
                     response.setContentType("application/json; charset=UTF-8");
                     response.setCharacterEncoding("UTF-8");
-                    
+
                     ResultSetMetaData rsmd = rs.getMetaData();
                     JsonWriter writer = new JsonWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-8"));
                     writer.beginArray();
-                    while(rs.next()) {
+                    while (rs.next()) {
                         writer.beginObject();
-                        for(int idx=1; idx<=rsmd.getColumnCount(); idx++) {
+                        for (int idx = 1; idx <= rsmd.getColumnCount(); idx++) {
                             writer.name(rsmd.getColumnLabel(idx));
                             writer.value(rs.getString(idx));
                         }
                         System.out.println("next");
                         writer.endObject();
                     }
-                    writer.endArray(); 
+                    writer.endArray();
                     response.getOutputStream().flush();
                     writer.close();
-                    if (stmt != null) { stmt.close(); }
-                } else if (request.getParameter("medidores").equals("sensores")) {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                } else if ("sensores".equals(request2.getParameter("medidores"))) {
                     Statement stmt = con.createStatement();
                     ResultSet rs = stmt.executeQuery("SELECT * FROM public.medidores;");
 
                     response.setContentType("application/json; charset=UTF-8");
                     response.setCharacterEncoding("UTF-8");
-                    
+
                     ResultSetMetaData rsmd = rs.getMetaData();
                     JsonWriter writer = new JsonWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-8"));
                     writer.beginArray();
-                    while(rs.next()) {
+                    while (rs.next()) {
                         writer.beginObject();
-                        for(int idx=1; idx<=rsmd.getColumnCount(); idx++) {
+                        for (int idx = 1; idx <= rsmd.getColumnCount(); idx++) {
                             writer.name(rsmd.getColumnLabel(idx));
                             writer.value(rs.getString(idx));
                         }
                         writer.endObject();
                     }
-                    writer.endArray(); 
+                    writer.endArray();
                     response.getOutputStream().flush();
                     writer.close();
-                    if (stmt != null) { stmt.close(); }
+                    if (stmt != null) {
+                        stmt.close();
+                    }
                 } else {
-                    String medidor = request.getParameter("medidor");
-                    String periodo = request.getParameter("periodo");
-                    String r_datafinal = request.getParameter("datafinal");
+                    String medidor = request2.getParameter("medidor");
+                    String periodo = request2.getParameter("periodo");
+                    String r_datafinal = request2.getParameter("datafinal");
                     if (r_datafinal == null) {
                         r_datafinal = "2019-05-13T16:54:00.0";
                     }
@@ -146,6 +159,8 @@ public class Ajax extends HttpServlet {
                     Statement stmt = con.createStatement();
                     ResultSet rs = stmt.executeQuery("SELECT * FROM public." + medidor + " WHERE datahora BETWEEN '"
                             + datainicial + "00' AND '" + datafinal + "00';");
+                    System.out.println("SELECT * FROM public." + medidor + " WHERE datahora BETWEEN '"
+                    + datainicial + "00' AND '" + datafinal + "00';");
 
                     response.setContentType("application/json; charset=UTF-8");
                     response.setCharacterEncoding("UTF-8");
