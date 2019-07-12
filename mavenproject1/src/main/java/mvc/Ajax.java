@@ -47,13 +47,7 @@ public class Ajax extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private Long emMilissegundos(int dias) {
-        Long res = Long.valueOf(dias * 24 * 60 * 60 * 1000);
-        return res;
-    }
-
     public Timestamp subtrai(int dias, Timestamp t) {
-        Long milissegundos = emMilissegundos(dias);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(t.getTime());
         calendar.add(Calendar.DAY_OF_MONTH, -dias);

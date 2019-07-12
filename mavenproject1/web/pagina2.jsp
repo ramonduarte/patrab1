@@ -40,7 +40,7 @@
 
                     <table class="table table-hover">
                         <thead> 
-                        <tr>
+                            <tr>
                                 <th>Serial #</th>
                                 <th>Nome</th>                    
                                 <th>Tabela</th>
@@ -48,9 +48,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="text" name="serialno_medidores"></td>
-                                <td><input type="text" name="nome"></td>
-                                <td><input type="text" name="tabela"></td>
+                                <td><input type="text" name="serialno_medidores0"></td>
+                                <td><input type="text" name="nome0"></td>
+                                <td><input type="text" name="tabela0"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -90,9 +90,9 @@
                                 <td><%= rs.getString(3) %></td>
                                 <td>
                                     <form action="/mavenproject1/requestcontroller" method="post">
-                                        <input type="hidden" value="<%= rs.getString(1) %>" id="<%= contador %>_serial" name="serialno_medidores" />
-                                        <input type="hidden" value="<%= rs.getString(2) %>" id="<%= contador %>_nome" name="nome" />
-                                        <input type="hidden" value="<%= rs.getString(3) %>" id="<%= contador %>" name="tabela" />
+                                        <input type="hidden" value="<%= rs.getString(1) %>" id="<%= contador %>_serial" name="serialno_medidores1" />
+                                        <input type="hidden" value="<%= rs.getString(2) %>" id="<%= contador %>_nome" name="nome1" />
+                                        <input type="hidden" value="<%= rs.getString(3) %>" id="<%= contador %>" name="tabela1" />
                                         <input type="hidden" value="edit" name="operation" />
                                         <button class="btn btn-success fas fa-check-circle"></button>
                                         <script>
@@ -106,7 +106,7 @@
                                     </form></td>
                                 <td>
                                     <form action="/mavenproject1/requestcontroller" method="post">
-                                        <input type="hidden" value="<%= rs.getString(3) %>" name="tabela" />
+                                        <input type="hidden" value="<%= rs.getString(3) %>" name="tabela2" />
                                         <input type="hidden" value="delete" name="operation" />
                                         <button class="btn btn-danger fas fa-times-circle" ></button>
                                     </form></td>
